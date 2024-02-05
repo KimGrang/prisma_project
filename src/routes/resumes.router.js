@@ -26,30 +26,45 @@ router.post('/resumes', authMiddleware, async (req, res, next) => {
 
 router.get('/resumes', async (req, res, next) => {
     try {
-        const { orderKey, orderValue } = req.query;
-        let orderBy = { createdAt: 'desc' };
+        const { orderKey, orderValue } = req.body;
 
-        if (orderKey && orderValue) {
-            const validOrderValues = ['asc', 'desc'];
+        if (!orderKey || !orderValue) {
+            return res.status(400).json({
+                success: false,
+                message: 'orderKey 또는 orderValue가 제공되지 않았습니다.'
+            });
+        }
 
-            if (validOrderValues.includes(orderValue.toLowerCase())) {
-                orderBy[orderKey] = orderValue.toLowerCase();
-            }
+        if (!['resumeId', 'status'].includes(orderKey)) {
+            return res.status(400).json({
+                success: false,
+                message: 'orderKey가 올바르지 않습니다.'
+            });
+        }
+
+        if (!['asc', 'desc'].includes(orderValue.toLowerCase())) {
+            return res.status(400).json({
+                success: false,
+                message: 'orderValue가 올바르지 않습니다.'
+            });
         }
 
         const resumes = await prisma.resumes.findMany({
+            orderBy: {
+                [orderKey]: orderValue,
+            },
             select: {
                 resumeId: true,
                 title: true,
                 content: true,
+                auth: true,
                 status: true,
                 createdAt: true,
                 updatedAt: true,
-                userId: true,
-                auth: true
+                userId: true
             },
-            orderBy: orderBy,
         });
+        console.log(orderKey, orderValue);
 
         return res.status(200).json({ data: resumes });
     } catch (error) {
