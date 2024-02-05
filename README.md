@@ -10,7 +10,7 @@ DATABASE_PASSWORD
 SESSION_SECRET_KEY
 
 # API 명세서 URL && ERD URL
-- https://www.notion.so/Node-API-ERD-2987e13f920e411ca97979eaa05aa4ef?pvs=4 
+- [https://www.notion.so/Node-API-ERD-2987e13f920e411ca97979eaa05aa4ef?pvs=4 ](https://stone-artichoke-8a8.notion.site/Node-API-ERD-2987e13f920e411ca97979eaa05aa4ef)
 
 # 더 고민해 보기
 1. **암호화 방식**
