@@ -64,7 +64,6 @@ router.get('/resumes', async (req, res, next) => {
                 userId: true
             },
         });
-        console.log(orderKey, orderValue);
 
         return res.status(200).json({ data: resumes });
     } catch (error) {
